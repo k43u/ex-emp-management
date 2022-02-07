@@ -23,7 +23,7 @@ public class AdministratorController {
 	private AdministratorService administratorService;
 	
 	/**
-	 * @return 
+	 * @return InsertAdministratorFormをインスタンス化
 	 */
 	
 	@ModelAttribute
