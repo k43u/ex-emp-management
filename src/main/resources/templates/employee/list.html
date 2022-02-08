@@ -75,7 +75,7 @@
 					</thead>
 					<tbody>
 						<tr th:each="employee : ${employeeList}">
-							<td th:text="${employee.name}"><a href="detail.html" th:href="@{/employee/showDetail/id}"> <span>山田太郎</span>
+							<td><a th:text="${employee.name}" href="detail.html" th:href="@{/employee/showDetail(id=${employee.id})}"> <span>山田太郎</span>
 							</a></td>
 							<td th:text="*{employee.hireDate}"><span>2016/12/1</span></td>
 							<td th:text="*{employee.dependentsCount}"><span>3人</span></td>
