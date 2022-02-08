@@ -40,6 +40,12 @@ public class EmployeeController {
 		return new UpdateEmployeeForm();
 	}
 	
+	/**
+	 * 従業員情報を取得
+	 * @param id
+	 * @param model
+	 * @return 従業員詳細
+	 */
 	@RequestMapping("/showDetail")
 	public String showDatail(String id, Model model) {
 		Employee employee = employeeservice.showDetail(Integer.parseInt(id));
@@ -47,4 +53,15 @@ public class EmployeeController {
 	    return "employee/detail";
 	}
 	
+	/**
+	 * 従業員詳細を更新
+	 * @param form
+	 * @return 従業員リスト
+	 */
+	@RequestMapping("/update")
+	public String update(UpdateEmployeeForm form) {
+		Employee employee = employeeservice.showDetail(Integer.parseInt(form.getId()));
+		employee.setDependentsCount(Integer.parseInt(form.getDependentsCount()));
+		return "/employee/showList";
+	}
 }
