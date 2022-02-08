@@ -26,9 +26,10 @@ public class EmployeeController {
 	 * @param model
 	 * @return 従業員一覧
 	 */
+	@RequestMapping("/showList")
 	public String showList(Model model) {
 		model.addAttribute("employeeList", employeeservice.showList());
-		return "employee/list.html";
+		return "employee/list";
 	}
 	
 }
