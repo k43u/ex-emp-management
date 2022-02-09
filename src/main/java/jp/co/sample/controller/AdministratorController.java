@@ -82,6 +82,6 @@ public class AdministratorController {
 			 return "administrator/login";
 		 }
 		 session.setAttribute("administratorName", administrator.getName());
-		 return "foward:/employee/showList";
+		 return "forward:/employee/showList";
 	}
 }
