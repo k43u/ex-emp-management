@@ -62,6 +62,7 @@ public class EmployeeController {
 	public String update(UpdateEmployeeForm form) {
 		Employee employee = employeeservice.showDetail(Integer.parseInt(form.getId()));
 		employee.setDependentsCount(Integer.parseInt(form.getDependentsCount()));
-		return "/employee/showList";
+		employeeservice.update(employee);
+		return "redirect:/employee/showList";
 	}
 }

@@ -12,7 +12,6 @@ import org.springframework.stereotype.Repository;
 
 import jp.co.sample.domain.Employee;
 
-
 /**
  * employeesテーブルを操作するリポジトリ(Dao)です。
  * 
@@ -23,7 +22,7 @@ public class EmployeeRepository {
 
 	@Autowired
 	private NamedParameterJdbcTemplate template;
-	
+
 	private static final RowMapper<Employee> EMPLOYEE_ROW_MAPPER = (rs, i) -> {
 		Employee employee = new Employee();
 		employee.setId(rs.getInt("id"));
@@ -38,66 +37,57 @@ public class EmployeeRepository {
 		employee.setSalary(rs.getInt("salary"));
 		employee.setCharacteristics(rs.getString("characteristics"));
 		employee.setDependentsCount(rs.getInt("dependents_count"));
-		
+
 		return employee;
 	};
-	
+
 	/**
 	 * 全件検索
+	 * 
 	 * @return 従業員一覧情報を入社日順で取得
 	 */
 	public List<Employee> findAll() {
 		String sql = "SELECT id,name,image,gender,hire_date,mail_address,zip_code,address,telephone,"
 				+ "salary,characteristics,dependents_count FROM employees ORDER BY hire_date DESC;";
-		
-		List<Employee> employeeList
-		   = template.query(sql, EMPLOYEE_ROW_MAPPER);
-		
-		if(employeeList.size() == 0) {
+
+		List<Employee> employeeList = template.query(sql, EMPLOYEE_ROW_MAPPER);
+
+		if (employeeList.size() == 0) {
 			return null;
 		}
-		
-		return  employeeList;
+
+		return employeeList;
 	}
-	
+
 	/**
 	 * 主キー検索
+	 * 
 	 * @param id
 	 * @return 主キーから従業員情報を取得
 	 */
 	public Employee load(Integer id) {
 		String sql = "SELECT id,name,image,gender,hire_date,mail_address,zip_code,address,telephone,"
 				+ "salary,characteristics,dependents_count FROM employees WHERE id=:id;";
-		
+
 		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
-		
-		Employee employee
-		 = template.queryForObject(sql, param, EMPLOYEE_ROW_MAPPER);
-		
+
+		Employee employee = template.queryForObject(sql, param, EMPLOYEE_ROW_MAPPER);
+
 		return employee;
 	}
-	
+
 	/**
 	 * 従業員情報の変更
+	 * 
 	 * @param employee
 	 */
 	public void update(Employee employee) {
-		SqlParameterSource param 
-		 = new BeanPropertySqlParameterSource(employee);
-		
-		if(employee.getId() == null) {
-			String insertSql
-			 = "INSERT INTO employees(name,image,gender,hire_date,mail_address,zip_code,address,telephone,"
-               + "salary,characteristics,dependents_count)"
-               + " VALUES(:name,:image,:gender,:hireDate,:mailAddress,:zipCode,:address,:telephone,"
-               + ":salary,:characteristics,:dependentsCount) WHERE id=:id;";
-			template.update(insertSql, param);
-		}else {
-			String updateSql = "UPDATE employees SET name=:name, image=:image, gender=:gender,"
-					+ "hire_date=:hireDate,mail_address=:mailAddress,zip_code=:zipCode,address=:address,"
-					+ "telephone=:telephone,salary=:salary,characteristics=:characteristics,"
-					+ "dependents_count=:dependentsCount WHERE id=:id;";
-			template.update(updateSql, param);
-		}
+		SqlParameterSource param = new BeanPropertySqlParameterSource(employee);
+		String updateSql = "UPDATE employees SET name=:name, image=:image, gender=:gender,"
+				+ "hire_date=:hireDate,mail_address=:mailAddress,zip_code=:zipCode,address=:address,"
+				+ "telephone=:telephone,salary=:salary,characteristics=:characteristics,"
+				+ "dependents_count=:dependentsCount WHERE id=:id;";
+		template.update(updateSql, param);
 	}
+
 }
